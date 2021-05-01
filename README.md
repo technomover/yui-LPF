@@ -1,8 +1,8 @@
 # yui-LPF
 a Low Pass Filter for KORG NTS-1
 
-yui-LPF is a 4th order Low Pass Filter (-24dB/oct) for KORG Nu:tekt NTS-1.
-  - an Effect Unit in MODFX slot, made with logue-SDK
+yui-LPF is a 4th order Low Pass Filter (-24dB/oct) for [KORG Nu:tekt NTS-1](https://www.korg.com/products/dj/nts_1).
+  - an Effect Unit in MODFX slot, made with [logue-SDK](https://korginc.github.io/logue-sdk/)
   - knob A: cutoff freq
   - knob B: resonance
 
@@ -17,9 +17,10 @@ Transfer yui-LPF.ntkdigunit to your NTS-1 with "NTS-1 digital Librarian"
   >> SEE: https://www.korg.com/products/dj/nts_1/librarian_contents.php
 
 
-# Souce and Build Procedure
+# Source and Build Procedure
   + NOTE: the example below is on macOS but others may be similar.  
 
+## install logue-SDK
 ```bash:install logue-SDK
  [somewhere]$ git clone https://github.com/korginc/logue-sdk.git
  [somewhere]$ cd logue-sdk
@@ -28,6 +29,7 @@ Transfer yui-LPF.ntkdigunit to your NTS-1 with "NTS-1 digital Librarian"
   >> SEE: https://korginc.github.io/logue-sdk/<br/>
   >> SEE: https://korginc.github.io/logue-sdk/ja/
 
+## install GCC toolchain for logue-SDK
 ```bash:install GCC toolchain for logue-SDK
  [somewhere/logue-sdk]$ cd tools/gcc
  [somewhere/logue-sdk/tools/gcc]$ less README.md
@@ -37,6 +39,7 @@ Darwin
 ```
   >> SEE: https://github.com/korginc/logue-sdk/tree/master/tools/gcc
 
+## install GNU make
 ```bash:install GNU make
  [somewhere/logue-sdk/tools/gcc]$ cd ../make
  [somewhere/logue-sdk/tools/make]$ less README.md
@@ -47,6 +50,7 @@ Darwin
 ```
   >> SEE: https://github.com/korginc/logue-sdk/tree/master/tools/make
 
+## install ZIP
 ```bash:install ZIP
  [somewhere/logue-sdk/tools/make]$ cd ../zip
  [somewhere/logue-sdk/tools/zip]$ less README.md
@@ -57,6 +61,7 @@ Darwin
 ```
   >> SEE: https://github.com/korginc/logue-sdk/tree/master/tools/zip
 
+## install logue-cli
 ```bash:install logue-cli
  [somewhere/logue-sdk/tools/zip]$ cd ../logue-cli
  [somewhere/logue-sdk/tools/logue-cli]$ less README.md
