@@ -30,3 +30,11 @@
 *.exe
 *.out
 *.app
+
+# Working Directories to build
+modfx/projects/yui-LPF/build_minilogue-xd/
+modfx/projects/yui-LPF/build_nutekt-digital/
+modfx/projects/yui-LPF/build_prologue/
+
+# Distribution
+release/
