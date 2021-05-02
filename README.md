@@ -13,12 +13,12 @@ It may run on KORG prologue or minilogue xd but is not tested.
 
 Download yui-LPF.zip and unzip.
 
-Transfer yui-LPF.ntkdigunit to your NTS-1 with "NTS-1 digital Librarian"  
+Transfer yui-LPF.ntkdigunit to your NTS-1 with "NTS-1 digital Librarian"
   + SEE: https://www.korg.com/products/dj/nts_1/librarian_contents.php
 
 
 # Source and Build Procedure
-  + NOTE: the example below is on macOS but others may be similar.  
+  + NOTE: the example below is on macOS but others may be similar.
 
 ## install logue-SDK
 ```bash:install logue-SDK
@@ -115,3 +115,11 @@ static dsp::BiQuad yui_Filter	// define our BiQuad instances
 ```bash:BUILD and TRANS
  [somewhere/yui-LPF/modfx/projects/yui-LPF]$ ./build.sh && ./trans-ntk.sh
 ```
+
+### Acknowledgement
+- [kaz saita / kinoshita-lab](https://github.com/kinoshita-lab)
+  - thanks to his lecture at [NI-SUI](https://ni-sui.electribe.jp/)
+  - and his many other gread works
+- [centrevillage](https://github.com/centrevillage)
+  - thanks to his lecture at NI-SUI
+  - this project uses [logue-sdk-template](https://github.com/centrevillage/logue-sdk-template)
