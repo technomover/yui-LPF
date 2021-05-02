@@ -2,11 +2,11 @@
 a Low Pass Filter for KORG NTS-1
 
 yui-LPF is a 4th order Low Pass Filter (-24dB/oct) for [KORG Nu:tekt NTS-1](https://www.korg.com/products/dj/nts_1).
-  - an Effect Unit in MODFX slot, made with [logue-SDK](https://korginc.github.io/logue-sdk/)
+  - an Effect Unit in MODFX slot, made with [logue-SDK](https://github.com/korginc/logue-sdk)
   - knob A: cutoff freq
   - knob B: resonance
 
-It may run on KORG prologue or minilogue xd but not tested.
+It may run on KORG prologue or minilogue xd but is not tested.
 
 
 # Binary Release (in progress)
@@ -14,7 +14,7 @@ It may run on KORG prologue or minilogue xd but not tested.
 Download yui-LPF.zip and unzip.
 
 Transfer yui-LPF.ntkdigunit to your NTS-1 with "NTS-1 digital Librarian"  
-  >> SEE: https://www.korg.com/products/dj/nts_1/librarian_contents.php
+  + SEE: https://www.korg.com/products/dj/nts_1/librarian_contents.php
 
 
 # Source and Build Procedure
@@ -26,8 +26,8 @@ Transfer yui-LPF.ntkdigunit to your NTS-1 with "NTS-1 digital Librarian"
  [somewhere]$ cd logue-sdk
  [somewhere/logue-sdk]$ git submodule update --init
 ```
-  >> SEE: https://korginc.github.io/logue-sdk/<br/>
-  >> SEE: https://korginc.github.io/logue-sdk/ja/
+  + SEE: https://korginc.github.io/logue-sdk/
+  + SEE: https://korginc.github.io/logue-sdk/ja/
 
 ## install GCC toolchain for logue-SDK
 ```bash:install GCC toolchain for logue-SDK
@@ -37,7 +37,7 @@ Transfer yui-LPF.ntkdigunit to your NTS-1 with "NTS-1 digital Librarian"
 Darwin
  [somewhere/logue-sdk/tools/gcc]$ ./get_gcc_osx.sh
 ```
-  >> SEE: https://github.com/korginc/logue-sdk/tree/master/tools/gcc
+  + SEE: https://github.com/korginc/logue-sdk/tree/master/tools/gcc
 
 ## install GNU make
 ```bash:install GNU make
@@ -48,7 +48,7 @@ Darwin
  [somewhere/logue-sdk/tools/make]$ which make
 /usr/bin/make    // you already have it.
 ```
-  >> SEE: https://github.com/korginc/logue-sdk/tree/master/tools/make
+  + SEE: https://github.com/korginc/logue-sdk/tree/master/tools/make
 
 ## install ZIP
 ```bash:install ZIP
@@ -59,7 +59,7 @@ Darwin
  [somewhere/logue-sdk/tools/zip]$ which zip
 /usr/bin/zip    // you already have it.
 ```
-  >> SEE: https://github.com/korginc/logue-sdk/tree/master/tools/zip
+  + SEE: https://github.com/korginc/logue-sdk/tree/master/tools/zip
 
 ## install logue-cli
 ```bash:install logue-cli
@@ -79,7 +79,7 @@ EULA.md*	logue-cli*
 lrwxr-xr-x  1 user  staff  31  5  1 09:38 logue-cli@ -> logue-cli-osx-0.07-2b/logue-cli
  [somewhere/logue-sdk/tools/logue-cli]$ cd ../../..
 ```
-  >> SEE: https://github.com/korginc/logue-sdk/tree/master/tools/logue-cli
+  + SEE: https://github.com/korginc/logue-sdk/tree/master/tools/logue-cli
 
 ## git clone [yui-LPF] and build binary
 ```bash:clone [yui-LPF] repository
@@ -100,11 +100,15 @@ yui-LPF.mnlgxdunit	yui-LPF.ntkdigunit	yui-LPF.prlgunit
 ## misc.
 
 ### Edit yui-LPF.cpp if you want customize the filter.
->>   example:
->>     you can turn it to a -12db/oct or -36db/oct LPF
->>     with a few line of modification.
+#### example:
+        you can turn it to a -12db/oct or -36db/oct LPF with a few line of modification.
 ```c++:yui-LPF.cpp
 #define NumCas 2  // Number of Filter Cascade: 2 (4-pole)
+static dsp::BiQuad yui_Filter	// define our BiQuad instances
+[NumCh][NumCas] = {		// TODO: shoud able to change NumCh and NumCas
+  { dsp::BiQuad(), dsp::BiQuad() },
+  { dsp::BiQuad(), dsp::BiQuad() }
+};
 ```
 
 ### BUILD and (if succeed it) TRANS for rapid development and debug (on B-shell)
