@@ -119,7 +119,7 @@ static dsp::BiQuad yui_Filter	// define our BiQuad instances
 ### Acknowledgement
 - [kaz saita / kinoshita-lab](https://github.com/kinoshita-lab)
   - thanks to his lecture at [NI-SUI](https://ni-sui.electribe.jp/)
-  - and his many other gread works
+  - and his many other great works
 - [centrevillage](https://github.com/centrevillage)
   - thanks to his lecture at NI-SUI
   - this project uses [logue-sdk-template](https://github.com/centrevillage/logue-sdk-template)
