@@ -19,6 +19,7 @@ Transfer yui-LPF.ntkdigunit to your NTS-1 with "NTS-1 digital Librarian"
 
 # Source and Build Procedure
   + NOTE: the example below is on macOS but others may be similar.
+  + NOTE: you may need install Xcode or Xcode Command Line Tools on macOS.
 
 ## install logue-SDK
 ```bash:install logue-SDK
@@ -94,6 +95,38 @@ yui-LPF.mnlgxdunit	yui-LPF.ntkdigunit	yui-LPF.prlgunit
 
 ## CONNECT your NTS-1 to transfer
 ```bash:transfer the unit file to NTS-1
+ [somewhere/yui-LPF/modfx/projects/yui-LPF]$ ../../../../logue-sdk/tools/logue-cli/logue-cli probe
+Error: Could not find matching logue MIDI ports.
+
+Logue interface connection failed.
+  Available MIDI inputs:
+    in  0: NTS-1 digital kit NTS-1 digital _ KBD/KNOB
+
+  Available MIDI ouputs:
+    out 0: NTS-1 digital kit NTS-1 digital _ SOUND
+
+ [somewhere/yui-LPF/modfx/projects/yui-LPF]$ ../../../../logue-sdk/tools/logue-cli/logue-cli probe --inport 0 --outport 0
+> Device: nutekt digital
+> System version: 1.20
+> Logue API version: 1.01-0
+> Available modules:
+
+Modulation FX: [ slot_count: 16, max_payload_size: 8180, max_load_size: 6144 ]
+Delay FX: [ slot_count: 8, max_payload_size: 16368, max_load_size: 12288 ]
+Reverb FX: [ slot_count: 8, max_payload_size: 16368, max_load_size: 12288 ]
+Oscillator: [ slot_count: 16, max_payload_size: 36848, max_load_size: 32768 ]
+
+ [somewhere/yui-LPF/modfx/projects/yui-LPF]$ ../../../../logue-sdk/tools/logue-cli/logue-cli load --inport 0 --outport 0 --slot 1 --unit yui-LPF.ntkdigunit
+> Parsing nutekt digital unit archive
+> Parsing manifest
+> Parsing unit binary payload
+> Handshaking...
+> Target platform: "nutekt digital"
+> Target module: "Modulation FX"
+size: 82c crc32: 8ecb59fc
+```
+or run the utilty script (need fit it to your environment)
+```bash:transfer the unit file to NTS-1 by script
  [somewhere/yui-LPF/modfx/projects/yui-LPF]$ ./trans-ntk.sh
 ```
 
