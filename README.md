@@ -11,9 +11,11 @@ It may run on KORG prologue or minilogue xd but is not tested.
 
 # Binary Release (in progress)
 
-Download yui-LPF.zip and unzip.
+## Download yui-LPF.zip and unzip.
+  - download yui-LPF.x.y-z.zip from [Releases](https://github.com/technomover/yui-LPF/releases)
+  - open yui-LPF.x.y-z.zip to unzip and get yui-LPF.ntkdigunit.
 
-Transfer yui-LPF.ntkdigunit to your NTS-1 with "NTS-1 digital Librarian"
+## Transfer yui-LPF.ntkdigunit to your NTS-1 with "NTS-1 digital Librarian"
   + SEE: https://www.korg.com/products/dj/nts_1/librarian_contents.php
 
 

@@ -37,4 +37,5 @@ modfx/projects/yui-LPF/build_nutekt-digital/
 modfx/projects/yui-LPF/build_prologue/
 
 # Distribution
+release/
 *.*unit
