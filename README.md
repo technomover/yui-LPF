@@ -9,7 +9,7 @@ yui-LPF is a 4th order Low Pass Filter (-24dB/oct) for [KORG Nu:tekt NTS-1](http
 It may run on KORG prologue or minilogue xd but is not tested.
 
 
-# Binary Release (in progress)
+# Binary Release
 
 ## Download yui-LPF.zip and unzip.
   - download yui-LPF.x.y-z.zip from [Releases](https://github.com/technomover/yui-LPF/releases)
