@@ -69,7 +69,7 @@ void MODFX_INIT(uint32_t platform, uint32_t api) {
 
 // the louge-SDK callback when this FX comes back from another FX (maybe)
 // // re-init processing to avoid click noize when this FX comes back (maybe)
-void DELFX_RESUME() {
+void MODFX_RESUME() {
   for (int i = 0 ; i < NumCh ; i++) {
     for (int j = 0 ; j < NumCas ; j++) {
       yui_Filter[i][j].flush();
