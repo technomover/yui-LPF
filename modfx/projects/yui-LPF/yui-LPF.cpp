@@ -8,14 +8,25 @@
 #define LPF_FC_MIN  55.f	// Hz
 #define LPF_FC_MAX  23500.f	// Hz
 
-#define NumPro 2  // Number of Process: 2 (main and sub)
-#define NumCh  2  // Number of Channel: 2 (stereo)
-#define NumCas 2  // Number of Filter Cascade: 2 (4-pole)
-static dsp::BiQuad yui_Filter	// define our BiQuad instances
-[NumCh][NumCas] = {		// TODO: shoud able to change NumCh and NumCas
-  { dsp::BiQuad(), dsp::BiQuad() },
-  { dsp::BiQuad(), dsp::BiQuad() }
-};
+#define StereoPair 2  // each channel is a stereo pair
+#define NumCas 2      // Number of Filter Cascade: 2 (4-pole)
+// define our BiQuad instances
+#if USER_TARGET_PLATFORM == k_user_target_prologue
+  #define NumCh 4     // Number of Channel: 4 ... stereo w/ sub-timbre
+  static dsp::BiQuad yui_Filter[NumCh][NumCas] = {
+    { dsp::BiQuad(), dsp::BiQuad() },
+    { dsp::BiQuad(), dsp::BiQuad() },
+    { dsp::BiQuad(), dsp::BiQuad() },
+    { dsp::BiQuad(), dsp::BiQuad() }
+  };
+#else
+  #define NumCh 2     // Number of Channel: 4 ... stereo only
+  static dsp::BiQuad yui_Filter[NumCh][NumCas] = {
+    { dsp::BiQuad(), dsp::BiQuad() },
+    { dsp::BiQuad(), dsp::BiQuad() }
+  };
+#endif
+
 static float yui_LPF_fc = LPF_FC_MAX;
 static float yui_LPF_q  = LPF_Q_BASE;
 static const float fs_recipro = 1.f / 48000.f;	// recipro of sample rate
@@ -25,6 +36,7 @@ static bool  dirty_param;	// set when any param has been modified
 
 
 // set new cutoff freq and resonance if any param has been updated
+static inline __attribute__((optimize("Ofast"),always_inline))
 void update_coeffs() {
   if (! dirty_param) return;
   dirty_param = false;
@@ -36,12 +48,13 @@ void update_coeffs() {
       // for our new cuttoff freq and resonance
       yui_Filter[ch][cas].mCoeffs.setSOLP(
         fx_tanpif(yui_Filter[ch][cas].mCoeffs.wc(yui_LPF_fc, fs_recipro)),
-	yui_LPF_q);
+	      yui_LPF_q);
     }
   }
 }
 
-
+// limit sample within [-1,1]
+static inline __attribute__((optimize("Ofast"),always_inline))
 float yui_clip(float x) {
   switch (clip_typ) {
   case -1:
@@ -80,24 +93,15 @@ void MODFX_RESUME() {
 }
 
 
-// the logue-SDK callback to process a sample buffer
-void MODFX_PROCESS(const float *main_xn, float *main_yn,
-                   const float *sub_xn,  float *sub_yn,
-                   uint32_t frames) {
-  const float * mx = main_xn;
-  float * __restrict my = main_yn;
-  const float * my_e = my + NumCh*frames;
+// BiQuad process on a stero pair
+static inline __attribute__((optimize("Ofast"),always_inline))
+void biquad_process(const float *xn, float *yn,
+                    uint32_t frames, const int firstCh) {
+  const float * mx = xn;
+  float * __restrict my = yn;
+  const float * my_e = my + StereoPair*frames;
+  int ch = firstCh;
 
-  // TODO: not only processing main frames but also sub frames
-// const float *sx = sub_xn;
-// float * __restrict sy = sub_yn;
-
-  // check and set new params.
-  // if a knob is tweaked while processing,
-  // we will update at next PROCESS callback,
-  update_coeffs();
-
-  int ch = 0;
   for (; my != my_e; my++,mx++) {
     // N-time process for N-time -12dB/oct
     float buf = *mx;
@@ -105,9 +109,26 @@ void MODFX_PROCESS(const float *main_xn, float *main_yn,
       // compute a step of BiQuad
       buf = yui_Filter[ch][cas].process_so(buf);
     }
-    buf = yui_clip(buf);	// clip when high level amplitude
-    *my = buf;
-    ch = (++ch) % NumCh;
+    buf = yui_clip(buf);	 // clip when high level amplitude
+    *my = buf;             // output
+    ch ^= 1;               // flip the L/R target 
+  }
+}
+
+// the logue-SDK callback to process a sample buffer
+void MODFX_PROCESS(const float *main_xn, float *main_yn,
+                   const float *sub_xn,  float *sub_yn,
+                   uint32_t frames) {
+
+  // check and set new params.
+  // if a knob is tweaked while processing frames,
+  // we will update at next PROCESS callback,
+  update_coeffs();
+
+  // BiQuad process on a stero pair
+  biquad_process(main_xn, main_yn, frames, 0);  // main timbre
+  if (NumCh >= 2) {
+    biquad_process(sub_xn, sub_yn, frames, 2);  // sub timbre of Prologue
   }
 }
 

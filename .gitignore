@@ -39,3 +39,6 @@ modfx/projects/yui-LPF/build_prologue/
 # Distribution
 release/
 *.*unit
+
+# Mac file resource
+.DS_Store
