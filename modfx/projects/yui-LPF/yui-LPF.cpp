@@ -20,7 +20,7 @@
     { dsp::BiQuad(), dsp::BiQuad() }
   };
 #else
-  #define NumCh 2     // Number of Channel: 4 ... stereo only
+  #define NumCh 2     // Number of Channel: 2 ... stereo only
   static dsp::BiQuad yui_Filter[NumCh][NumCas] = {
     { dsp::BiQuad(), dsp::BiQuad() },
     { dsp::BiQuad(), dsp::BiQuad() }
